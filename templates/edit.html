@@ -1,0 +1,12 @@
+<!--我们要编辑某个条目，需要在输入框内提前把对应的数据放进去，以便于更新，而在模板中通过表单<input>的
+value属性即可将他们提前写入到输入框里，所以要在最后把电影记录传入模板-->-->
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Edit item</h3>
+<form method="post">
+    Name <input type="text" name="title" autocomplete="off" required value="{{ movie.title }}">
+    Year <input type="text" name="year" autocomplete="off" required value="{{ movie.year }}">
+    <input class="btn" type="submit" name="submit" value="Update">
+</form>
+{% endblock %}
