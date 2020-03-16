@@ -21,6 +21,12 @@
     <nav>
         <ul>
             <li><a href="{{ url_for('index') }}"Home></a></li>
+            {% if current_user.is_authenticated %} <!--如果用户已登录，就显示设置和登出链接-->
+            <li><a href="{{ url_for('settings') }}">Settings</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% else %}                              <!--如果未登录，就显示登录链接-->
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            {% endif %}
         </ul>
     </nav>
    {% block content %}{% endblock %}  <!--用来在子模板中插入页面主体内容的content块-->

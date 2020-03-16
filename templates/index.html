@@ -7,10 +7,12 @@
     {% for movie in movies %}
     <li>{{ movie.title }} - {{ movie.year }}
         <span class="float-right">  <!--为每一个电影条目的右侧添加一个IMDb链接,href的属性为IMDb搜索页面的URL,搜索关键词通过查询参数q传入，这里传入了电影的标题-->
+            {% if current_user.is_authenticated %}
             <a class="btn" href="{{ url_for('edit',movie_id=movie.id) }}">Edit</a>
             <form class="inline-form" method="post" action="{{ url_for('delete', movie_id=movie.id) }}">
                 <input class="btn" type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure?')">
             </form>
+            {% endif %}
             <a class="imdb" href="https://imdb.com/find?q={{ movie.title }}" target="_blank" title="Find this movie on IMDb">IMDb</a
         </span>
     </li>
@@ -19,12 +21,14 @@
 
 <!--添加创建新条目表单-->
 <p>{{ movies|length }} Titles</p>
-<form  method="post">
+{% if current_user.is_authenticated %}  <!--当模板渲染时，会先判断用户的登录状态，若未登录，就不会渲染表单部分的HTML代码-->
+<form  method="post"><!--为表单定义了post方法 -->
     <!--autocomplete属性设为off(按下搜索框不显示历史输入记录)
         添加required属性，如果用户没有输入内容就按下了提交按钮，浏览器会显示错误提示-->
     Name <input type="text" name="title" autocomplete="off" required>
     Year <input type="text" name="year" autocomplete="off" required>
     <input class="btn" type="submit" name="submit" value="Add">
 </form>
+{% endif %}
 <img alt="Walking Totoro" class="totoro" src="{{ url_for('static', filename='images/totoro.gif') }}" title="to~to~ro">
 {% endblock %}
